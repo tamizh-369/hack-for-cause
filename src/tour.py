@@ -696,3 +696,7 @@ def get_cinema_player_html() -> str:
     </body>
     </html>
     """
+
+# Backward compatibility alias
+get_tour_component_html = get_cinema_player_html
+__all__ = ["get_cinema_player_html", "get_tour_component_html"]

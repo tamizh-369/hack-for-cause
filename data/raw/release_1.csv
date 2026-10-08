@@ -1,0 +1,11 @@
+district,period,full_immunization_coverage,institutional_delivery_rate,anc_first_trimester_rate,release_version,source,updated_at
+Pune,2021,72.4,85.1,68.3,v1.0-provisional,HMIS-MoHFW,2022-12-15
+Pune,2022,81.9,87.4,71.0,v1.0-provisional,HMIS-MoHFW,2022-12-15
+Nagpur,2021,78.0,88.2,75.0,v1.0-provisional,HMIS-MoHFW,2022-12-15
+Nagpur,2022,80.5,92.5,79.2,v1.0-provisional,HMIS-MoHFW,2022-12-15
+Nashik,2021,70.1,82.0,,v1.0-provisional,HMIS-MoHFW,2022-12-15
+Nashik,2022,73.5,84.1,69.5,v1.0-provisional,HMIS-MoHFW,2022-12-15
+Thane,2021,81.0,91.2,80.4,v1.0-provisional,HMIS-MoHFW,2022-12-15
+Thane,2022,83.2,93.0,82.1,v1.0-provisional,HMIS-MoHFW,2022-12-15
+Aurangabad,2021,69.5,80.5,64.0,v1.0-provisional,HMIS-MoHFW,2022-12-15
+Aurangabad,2022,72.0,83.2,67.5,v1.0-provisional,HMIS-MoHFW,2022-12-15

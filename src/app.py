@@ -569,7 +569,7 @@ with st.sidebar:
     selected_claim = next(c for c in all_claims if c["id"] == selected_id)
 
     st.markdown("<br>", unsafe_allow_html=True)
-    if st.button("🎬  Play Guided Demo Tour", type="primary", use_container_width=True):
+    if st.button("▶️  Play Demo Video (Auto)", type="primary", use_container_width=True):
         st.session_state.start_tour = True
         st.rerun()
 
@@ -583,7 +583,7 @@ with st.sidebar:
 6. *"Few tools re-check claims when data is revised."*
         """)
 
-# ── INJECT TOUR GUIDE ────────────────────────────────────────────────
+# ── INJECT CINEMATIC VIDEO ENGINE ────────────────────────────────────
 should_start_tour = (st.query_params.get("tour") == "true") or st.session_state.get("start_tour", False)
 components.html(get_tour_component_html(start_immediately=should_start_tour), height=0)
 if st.session_state.get("start_tour"):
@@ -605,16 +605,24 @@ tab1, tab2, tab3, tab4, tab5 = st.tabs([
 # =====================================================================
 with tab1:
 
-    # ── Hero ──
-    st.markdown("""
-    <div class="hero">
-        <div class="hero-icon">🛡️</div>
-        <div>
-            <div class="hero-title">Public Health Claim Watchdog</div>
-            <div class="hero-sub">Tamil Nadu · Transparent Evidence · Bilingual · 100% Free</div>
+    # ── Hero & Play Demo Video Row ──
+    col_hero, col_vid = st.columns([3.2, 1.2])
+    with col_hero:
+        st.markdown("""
+        <div class="hero">
+            <div class="hero-icon">🛡️</div>
+            <div>
+                <div class="hero-title">Public Health Claim Watchdog</div>
+                <div class="hero-sub">Tamil Nadu · Transparent Evidence · Bilingual · 100% Free</div>
+            </div>
         </div>
-    </div>
-    """, unsafe_allow_html=True)
+        """, unsafe_allow_html=True)
+    with col_vid:
+        st.markdown("<br>", unsafe_allow_html=True)
+        if st.button("▶️  Play Demo Video", type="primary", use_container_width=True):
+            st.session_state.start_tour = True
+            st.rerun()
+        st.caption("🎬 Self-playing walkthrough with virtual cursor & CC subtitles")
 
     # ── Transparency notice ──
     st.markdown("""

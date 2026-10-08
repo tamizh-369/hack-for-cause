@@ -18,7 +18,7 @@ from src.check import detect_drift, evaluate_claim
 from src.explain import LANGUAGES, explain_drift, explain_verdict
 from src.load import load_release
 from src.parse import parse_claim_sentence
-from src.tour import get_tour_component_html
+from src.tour import get_cinema_player_html
 import streamlit.components.v1 as components
 
 # ── page config ──────────────────────────────────────────────────────
@@ -569,9 +569,8 @@ with st.sidebar:
     selected_claim = next(c for c in all_claims if c["id"] == selected_id)
 
     st.markdown("<br>", unsafe_allow_html=True)
-    if st.button("▶️  Play Demo Video (Auto)", type="primary", use_container_width=True):
-        st.session_state.start_tour = True
-        st.rerun()
+    if st.button("▶️  Play Demo Video", type="primary", use_container_width=True, key="btn_sidebar_video"):
+        show_cinema_dialog()
 
     with st.expander("⏱️ 3-Min Pitch Guide"):
         st.markdown("""
@@ -583,21 +582,41 @@ with st.sidebar:
 6. *"Few tools re-check claims when data is revised."*
         """)
 
-# ── INJECT CINEMATIC VIDEO ENGINE ────────────────────────────────────
-should_start_tour = (st.query_params.get("tour") == "true") or st.session_state.get("start_tour", False)
-components.html(get_tour_component_html(start_immediately=should_start_tour), height=0)
-if st.session_state.get("start_tour"):
-    st.session_state.start_tour = False
+# ── CINEMA VIDEO MODAL ───────────────────────────────────────────────
+@st.dialog("🎬 Watchdog Demo Walkthrough — Cinema Mode", width="large")
+def show_cinema_dialog():
+    components.html(get_cinema_player_html(), height=640)
+
+if (st.query_params.get("video") == "true") or (st.query_params.get("tour") == "true"):
+    show_cinema_dialog()
 
 
 # ── TABS ──────────────────────────────────────────────────────────────
-tab1, tab2, tab3, tab4, tab5 = st.tabs([
+tab_video, tab1, tab2, tab3, tab4, tab5 = st.tabs([
+    "🎬  Demo Video",
     "🔍  Verify",
     "⚖️  Compare",
     "✍️  Parser",
     "📂  Data",
     "📋  Audit",
 ])
+
+
+# =====================================================================
+# TAB 0 — DEMO VIDEO
+# =====================================================================
+with tab_video:
+    st.markdown("""
+    <div style="text-align:center;margin:8px 0 16px">
+        <h2 style="font-weight:900;background:linear-gradient(90deg,#f1f5f9,#22d3ee);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:4px">
+            🎬 Official Demo Walkthrough (Cinema Mode)
+        </h2>
+        <p style="color:rgba(241,245,249,0.65);font-size:0.92rem">
+            High-production 1080p continuous presentation · Press Play and record with <strong>[Win + Alt + R]</strong>
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+    components.html(get_cinema_player_html(), height=640)
 
 
 # =====================================================================
@@ -619,10 +638,9 @@ with tab1:
         """, unsafe_allow_html=True)
     with col_vid:
         st.markdown("<br>", unsafe_allow_html=True)
-        if st.button("▶️  Play Demo Video", type="primary", use_container_width=True):
-            st.session_state.start_tour = True
-            st.rerun()
-        st.caption("🎬 Self-playing walkthrough with virtual cursor & CC subtitles")
+        if st.button("▶️  Play Demo Video", type="primary", use_container_width=True, key="btn_hero_video"):
+            show_cinema_dialog()
+        st.caption("🎬 Self-playing walkthrough with 60fps scenes & CC subtitles")
 
     # ── Transparency notice ──
     st.markdown("""

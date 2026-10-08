@@ -18,6 +18,8 @@ from src.check import detect_drift, evaluate_claim
 from src.explain import LANGUAGES, explain_drift, explain_verdict
 from src.load import load_release
 from src.parse import parse_claim_sentence
+from src.tour import get_tour_component_html
+import streamlit.components.v1 as components
 
 # ── page config ──────────────────────────────────────────────────────
 st.set_page_config(
@@ -567,6 +569,10 @@ with st.sidebar:
     selected_claim = next(c for c in all_claims if c["id"] == selected_id)
 
     st.markdown("<br>", unsafe_allow_html=True)
+    if st.button("🎬  Play Guided Demo Tour", type="primary", use_container_width=True):
+        st.session_state.start_tour = True
+        st.rerun()
+
     with st.expander("⏱️ 3-Min Pitch Guide"):
         st.markdown("""
 1. 🟡 **Release 1** → CLM-001 → ✅ Supported
@@ -576,6 +582,12 @@ with st.sidebar:
 5. ✅ Click **Approve** → logged to session trail
 6. *"Few tools re-check claims when data is revised."*
         """)
+
+# ── INJECT TOUR GUIDE ────────────────────────────────────────────────
+should_start_tour = (st.query_params.get("tour") == "true") or st.session_state.get("start_tour", False)
+components.html(get_tour_component_html(start_immediately=should_start_tour), height=0)
+if st.session_state.get("start_tour"):
+    st.session_state.start_tour = False
 
 
 # ── TABS ──────────────────────────────────────────────────────────────

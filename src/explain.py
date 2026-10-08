@@ -1,7 +1,7 @@
 """Bilingual explanation generator module for Public Health Claim Watchdog.
 
-Generates transparent, human-readable explanations in English, Hindi, and Tamil
-for each verdict and drift alert using native, respectful phrasing.
+Generates transparent, human-readable explanations in English and draft translations
+in Hindi and Tamil (human review in progress) for each verdict and drift alert.
 """
 
 from typing import Any, Dict, Optional

@@ -6,7 +6,6 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python: 3.11+](https://img.shields.io/badge/Python-3.11%2B-blue)]()
 [![Cost: Free Tools Only](https://img.shields.io/badge/Cost-100%25%20Free%20%26%20Open%20Source-success)]()
-[![Tested with Pytest](https://img.shields.io/badge/Tests-12%2F12%20Passing-brightgreen)]()
 
 ---
 
@@ -19,15 +18,17 @@ Without automated monitoring:
 3. Machine-learning "black boxes" fail to provide verifiable mathematical evidence.
 4. Data quality anomalies (missing figures or spelling differences) get erroneously labeled as "False/Unsupported".
 
-**Claim Watchdog** solves this through deterministic rules, transparent evidence tables, automatic **Revision Drift Alerts**, bilingual summaries in **English, Hindi (हिंदी), and Tamil (தமிழ்)**, and a human-in-the-loop session audit trail.
+**Claim Watchdog** solves this through deterministic rules, transparent evidence tables, automatic **Revision Drift Alerts**, draft translations in **Hindi (हिंदी) and Tamil (தமிழ்)**, and a human-in-the-loop session audit trail.
 
 ---
 
 ## 🎯 Who It's For
+> *Intended users; validation with real users is in progress.*
+
 - **Health Journalists & Fact-Checkers:** Quickly verify public statements against official releases and download reproducible arithmetic evidence tables before publication.
 - **District Health Administrators & Communication Desks:** Track whether public campaigns align with the latest reconciled health statistics.
 - **Civil Society & Health Policy Researchers:** Monitor routine data revisions across releases without tedious manual spreadsheet reconciliation.
-- **Citizens & Grassroots Workers:** Access plain-language, jargon-free explanations in Tamil and Hindi to understand local health trends.
+- **Citizens & Grassroots Workers:** Access plain-language explanations with draft translations in Tamil and Hindi to understand local health trends.
 
 ---
 
@@ -126,9 +127,9 @@ Open your browser to `http://localhost:8501`.
   - Verdict: **Unsupported ❌**
   - **Watchdog Trigger:** 🚨 **REVISION DRIFT DETECTED**: Published figures were revised upon routine auditing, shifting the verdict.
 
-### Checkpoint 4: Verifiable Evidence Table & Multilingual Explanations
+### Checkpoint 4: Verifiable Evidence Table & Draft Translations
 - The UI displays the exact arithmetic parameters (file, district, indicator, baseline %, outcome %, net delta, threshold).
-- Native explanations available in **English**, **हिंदी (Hindi)**, and **தமிழ் (Tamil)**.
+- Draft translations available in **English**, **हिंदी (Hindi)**, and **தமிழ் (Tamil)** (human review in progress).
 
 ### Checkpoint 5: Reviewer Console & Session Audit Trail
 - A human editor enters review notes and clicks **`✅ Approve & Publish Alert`** or **`❌ Reject Alert`**.
@@ -140,13 +141,20 @@ Open your browser to `http://localhost:8501`.
 
 | Time | Stage | Spoken Narrative & Actions |
 |---|---|---|
-| **0:00 - 0:30** | **1. The Problem** | *"When public health campaigns announce major milestones—like child immunization rising by 8.5% in Coimbatore—the media quotes it as fact. However, published figures are sometimes revised upon routine data auditing, and claims quoted earlier may no longer match. Nobody systematically monitors this data drift."* |
+| **0:00 - 0:30** | **1. The Problem** | *"When public health campaigns announce major milestones—like child immunization rising by 8.5% in Coimbatore—the media quotes it as fact. However, published figures are sometimes revised upon routine data auditing, and claims quoted earlier may no longer match. Few tools re-check published claims when the underlying data is revised."* |
 | **0:30 - 0:50** | **2. The Setup** | *(Show CLM-001 on Streamlit)* *"Claim Watchdog bridges this gap. **This demo uses simulated releases that mirror real HMIS structure; the pipeline works on real files.** Here is our illustrative claim linked to its dataset release."* |
 | **0:50 - 1:20** | **3. Before (Release 1)** | *(Select Release 1)* *"On provisional data, Coimbatore rose from 74.2% to 83.8% (+9.6%). Our engine confirms the claim is **Supported** and generates a reproducible mathematical evidence table."* |
 | **1:20 - 1:40** | **4. The Revision** | *(Switch to Release 2)* *"Later, when audited figures are published in Release 2, our system re-checks the claim..."* |
-| **1:40 - 2:20** | **5. The Drift Alert** | *(Highlight alert banner and Tamil text)* *"The reconciled gain was only +3.4%! The verdict shifts to **Unsupported**, triggering an automatic **Revision Drift Alert** with native explanations in English, Hindi, and Tamil."* |
+| **1:40 - 2:20** | **5. The Drift Alert** | *(Highlight alert banner and Tamil text)* *"The reconciled gain was only +3.4%! The verdict shifts to **Unsupported**, triggering an automatic **Revision Drift Alert** with draft translations in English, Hindi, and Tamil."* |
 | **2:20 - 2:40** | **6. Human Review** | *(Click 'Approve & Publish Alert')* *"Before anything is published to the public feed, a human reviewer signs off, recording the decision in a **session audit trail with CSV export**."* |
 | **2:40 - 3:00** | **7. Close** | *"Built with 100% free open-source tools, runs locally and offline, and requires zero paid API subscriptions. Thank you!"* |
+
+---
+
+## 📋 Next Steps Before Final Submission
+1. **Run a real validation conversation:** Conduct a 10–15 minute call with a health journalist, an NGO worker, or a public health student. Take notes in their own words, ask permission to mention their role, and document any concrete changes made.
+2. **Deploy to a free host:** Deploy to Streamlit Community Cloud or Hugging Face Spaces (free tier), test the link on a mobile browser, and record a backup video using OBS Studio.
+3. **Swap in real data (if accessible):** If a published pair of provisional and audited Tamil Nadu HMIS tables is available before submission, place them into `data/raw/` to replace the benchmark simulation.
 
 ---
 

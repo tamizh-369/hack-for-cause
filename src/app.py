@@ -157,11 +157,12 @@ with st.sidebar.expander("⏱️ 3-Minute Pitch Script Guide"):
         """
         **Step-by-step Demo Guide:**
         1. **Problem (30s)**: Introduce Claim `CLM-001` (illustrative claim on simulated data).
+           - *State problem:* *"Few tools re-check published claims when the underlying data is revised."*
            - *State explicitly:* *"This demo uses simulated releases that mirror real HMIS structure; the pipeline works on real files."*
         2. **Setup (20s)**: Show the claim linked to its release file and transparent filter.
-        3. **Before (30s)**: Notice under **Release 1**, it is **Supported** (+9.5%).
+        3. **Before (30s)**: Notice under **Release 1**, it is **Supported** (+9.6%).
         4. **Update (20s)**: Switch radio to **Release 2**!
-        5. **After (40s)**: Status degrades to **Unsupported** (+3.2%). Point out **Drift Alert** and Hindi/Tamil translation.
+        5. **After (40s)**: Status shifts to **Unsupported** (+3.4%). Point out **Drift Alert** and draft translations in Hindi and Tamil.
         6. **Review (20s)**: Click **Approve & Publish Alert** to record in the session audit trail with CSV export.
         7. **Close (20s)**: Completely free, offline fallback ready, open source.
         """
@@ -275,8 +276,8 @@ with tab_verify:
         st.dataframe(evidence_df, use_container_width=True, hide_index=True)
 
     with col_right:
-        st.subheader("🗣️ Localized Explanation")
-        st.caption(f"Language: **{LANGUAGES[lang_choice]['name']}**")
+        st.subheader("🗣️ Localized Explanation (Draft Translations)")
+        st.caption(f"Language: **{LANGUAGES[lang_choice]['name']}** *(Draft translation; human review in progress)*")
 
         explanation_text = explain_verdict(selected_claim, eval_active, lang=lang_choice)
         st.markdown(explanation_text)

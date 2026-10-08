@@ -1,44 +1,47 @@
 [
   {
     "id": "CLM-001",
-    "text": "Full child immunization coverage in Pune district rose by over 8.5% between 2021 and 2022 following the Intensified Mission Indradhanush drive.",
+    "text": "Full child immunization coverage in Coimbatore district rose by over 8.5% between 2021 and 2022 following the state intensified immunization drive.",
     "indicator": "full_immunization_coverage",
-    "district": "Pune",
+    "district": "Coimbatore",
     "period_from": "2021",
     "period_to": "2022",
     "direction": "up",
     "magnitude": 8.5,
     "tolerance": 1.5,
-    "speaker": "District Health Campaign Press Release",
+    "speaker": "Simulated Health Campaign Release (Illustrative)",
     "claim_date": "2023-01-15",
-    "context": "Flagship claim demonstrating data revision drift alert (Supported in Release 1 -> Unsupported in Release 2)."
+    "claim_type": "Illustrative claim on simulated data",
+    "context": "Illustrative claim evaluated on simulated releases mirroring official Tamil Nadu HMIS schema. Demonstrates revision drift when figures are updated between releases."
   },
   {
     "id": "CLM-002",
-    "text": "Institutional deliveries in Nagpur district achieved an increase of approximately 4.0% between 2021 and 2022.",
+    "text": "Institutional deliveries in Madurai district achieved an increase of approximately 3.5% between 2021 and 2022.",
     "indicator": "institutional_delivery_rate",
-    "district": "Nagpur",
-    "period_from": "2021",
-    "period_to": "2022",
-    "direction": "up",
-    "magnitude": 4.0,
-    "tolerance": 1.5,
-    "speaker": "State Maternal Welfare Annual Brief",
-    "claim_date": "2023-02-10",
-    "context": "Reliable public claim that remains Supported across both provisional and audited releases."
-  },
-  {
-    "id": "CLM-003",
-    "text": "Early antenatal care registration (ANC 1st trimester) in Nashik increased by 3.5% between 2021 and 2022.",
-    "indicator": "anc_first_trimester_rate",
-    "district": "Nashik",
+    "district": "Madurai",
     "period_from": "2021",
     "period_to": "2022",
     "direction": "up",
     "magnitude": 3.5,
+    "tolerance": 1.5,
+    "speaker": "Simulated State Maternal Welfare Brief (Illustrative)",
+    "claim_date": "2023-02-10",
+    "claim_type": "Illustrative claim on simulated data",
+    "context": "Illustrative claim evaluated on simulated releases mirroring official HMIS schema. Remains Supported across both releases."
+  },
+  {
+    "id": "CLM-003",
+    "text": "Early antenatal care registration (ANC 1st trimester) in Salem increased by 3.0% between 2021 and 2022.",
+    "indicator": "anc_first_trimester_rate",
+    "district": "Salem",
+    "period_from": "2021",
+    "period_to": "2022",
+    "direction": "up",
+    "magnitude": 3.0,
     "tolerance": 1.0,
-    "speaker": "Regional Reproductive Health Bulletin",
+    "speaker": "Simulated Reproductive Health Bulletin (Illustrative)",
     "claim_date": "2023-03-01",
-    "context": "Data quality test claim: baseline 2021 data has missing indicator values, correctly producing Needs review."
+    "claim_type": "Illustrative claim on simulated data",
+    "context": "Illustrative claim evaluated on simulated releases. Tests data quality check: baseline 2021 has missing indicator values, correctly producing Needs review."
   }
 ]

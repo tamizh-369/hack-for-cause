@@ -59,9 +59,19 @@ def parse_claim_sentence(sentence: str, claim_id: str = "CUSTOM-001") -> Optiona
         period_from = period_match.group(1)
         period_to = period_match.group(2)
 
-    # 4. Detect District (known districts)
-    known_districts = ["Pune", "Nagpur", "Nashik", "Thane", "Aurangabad", "Amravati", "Solapur"]
-    detected_district = "Pune"
+    # 4. Detect District (Tamil Nadu districts)
+    known_districts = [
+        "Coimbatore",
+        "Madurai",
+        "Salem",
+        "Chennai",
+        "Tiruchirappalli",
+        "Kanchipuram",
+        "Tirunelveli",
+        "Vellore",
+        "Thanjavur",
+    ]
+    detected_district = "Coimbatore"
     for dist in known_districts:
         if re.search(rf"\b{dist}\b", text, re.IGNORECASE):
             detected_district = dist

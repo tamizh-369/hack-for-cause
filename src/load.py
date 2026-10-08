@@ -8,20 +8,23 @@ from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 import pandas as pd
 
-# Standard district name normalization alias mapping
+# Standard district name normalization alias mapping (Tamil Nadu focus)
 DISTRICT_ALIASES: Dict[str, str] = {
-    "poona": "Pune",
-    "pune": "Pune",
-    "nagpur": "Nagpur",
-    "nashik": "Nashik",
-    "nasik": "Nashik",
-    "thane": "Thane",
-    "aurangabad": "Aurangabad",
-    "chhatrapati sambhajinagar": "Aurangabad",
-    "sambhajinagar": "Aurangabad",
-    "amravati": "Amravati",
-    "solapur": "Solapur",
-    "sholapur": "Solapur",
+    "coimbatore": "Coimbatore",
+    "kovai": "Coimbatore",
+    "madurai": "Madurai",
+    "salem": "Salem",
+    "chennai": "Chennai",
+    "madras": "Chennai",
+    "trichy": "Tiruchirappalli",
+    "tiruchirappalli": "Tiruchirappalli",
+    "tiruchy": "Tiruchirappalli",
+    "kancheepuram": "Kanchipuram",
+    "kanchipuram": "Kanchipuram",
+    "tirunelveli": "Tirunelveli",
+    "nellai": "Tirunelveli",
+    "vellore": "Vellore",
+    "thanjavur": "Thanjavur",
 }
 
 REQUIRED_BASE_COLUMNS = ["district", "period"]

@@ -1,4 +1,4 @@
-"""Unit tests for src/check.py (Verdict Logic, Evidence & Drift Detection)."""
+"""Unit tests for src/check.py (Verdict Logic, Evidence & Drift Detection for Tamil Nadu)."""
 
 import json
 from pathlib import Path
@@ -29,31 +29,31 @@ def release_2():
 
 
 def test_verdict_supported(claims, release_1):
-    """Test claim CLM-001 is Supported under Release 1 provisional data."""
-    claim = claims[0]  # Pune immunization +8.5%
+    """Test claim CLM-001 (Coimbatore immunization +8.5%) is Supported under Release 1 provisional data."""
+    claim = claims[0]
     result = evaluate_claim(release_1, claim, release_filename="release_1.csv")
 
     assert result["verdict"] == "Supported"
     assert result["quality_passed"] is True
     ev = result["evidence"]
-    assert ev["old_value"] == 72.4
-    assert ev["new_value"] == 81.9
-    assert ev["computed_change"] == 9.5
+    assert ev["old_value"] == 74.2
+    assert ev["new_value"] == 83.8
+    assert ev["computed_change"] == 9.6
     assert ev["direction_matched"] is True
     assert ev["magnitude_matched"] is True
 
 
 def test_verdict_unsupported_on_release_2(claims, release_2):
     """Test claim CLM-001 becomes Unsupported under Release 2 audited data."""
-    claim = claims[0]  # Pune immunization
+    claim = claims[0]
     result = evaluate_claim(release_2, claim, release_filename="release_2.csv")
 
     assert result["verdict"] == "Unsupported"
     assert result["quality_passed"] is True
     ev = result["evidence"]
-    assert ev["old_value"] == 74.1
-    assert ev["new_value"] == 77.3
-    assert ev["computed_change"] == 3.2  # Revision showed only 3.2%, not 8.5%
+    assert ev["old_value"] == 75.5
+    assert ev["new_value"] == 78.9
+    assert ev["computed_change"] == 3.4  # Audited reconciliation showed only 3.4%, not 8.5%
     assert ev["magnitude_matched"] is False
 
 
@@ -72,7 +72,7 @@ def test_drift_detection(claims, release_1, release_2):
 
 
 def test_verdict_consistently_supported(claims, release_1, release_2):
-    """Test claim CLM-002 (Nagpur institutional delivery) is Supported on both releases."""
+    """Test claim CLM-002 (Madurai institutional delivery) is Supported on both releases."""
     claim = claims[1]
     res_1 = evaluate_claim(release_1, claim, release_filename="release_1.csv")
     res_2 = evaluate_claim(release_2, claim, release_filename="release_2.csv")
@@ -86,8 +86,8 @@ def test_verdict_consistently_supported(claims, release_1, release_2):
 
 
 def test_verdict_needs_review_missing_data(claims, release_1):
-    """Test claim CLM-003 yields 'Needs review' due to missing baseline ANC data."""
-    claim = claims[2]  # Nashik ANC
+    """Test claim CLM-003 yields 'Needs review' due to missing baseline ANC data for Salem."""
+    claim = claims[2]
     result = evaluate_claim(release_1, claim, release_filename="release_1.csv")
 
     assert result["verdict"] == "Needs review"

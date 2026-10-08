@@ -156,12 +156,13 @@ with st.sidebar.expander("⏱️ 3-Minute Pitch Script Guide"):
     st.markdown(
         """
         **Step-by-step Demo Guide:**
-        1. **Problem (30s)**: Introduce Claim `CLM-001` (Pune immunization claim).
-        2. **Setup (20s)**: Show official release link and transparent filter.
+        1. **Problem (30s)**: Introduce Claim `CLM-001` (illustrative claim on simulated data).
+           - *State explicitly:* *"This demo uses simulated releases that mirror real HMIS structure; the pipeline works on real files."*
+        2. **Setup (20s)**: Show the claim linked to its release file and transparent filter.
         3. **Before (30s)**: Notice under **Release 1**, it is **Supported** (+9.5%).
         4. **Update (20s)**: Switch radio to **Release 2**!
         5. **After (40s)**: Status degrades to **Unsupported** (+3.2%). Point out **Drift Alert** and Hindi/Tamil translation.
-        6. **Review (20s)**: Click **Approve & Publish Alert** to log to audit trail.
+        6. **Review (20s)**: Click **Approve & Publish Alert** to record in the session audit trail with CSV export.
         7. **Close (20s)**: Completely free, offline fallback ready, open source.
         """
     )
@@ -173,7 +174,7 @@ tab_verify, tab_compare, tab_parse, tab_data, tab_audit = st.tabs([
     "⚖️ Cross-Release Drift Comparison",
     "✍️ Custom Sentence Parser",
     "📂 Raw Data Explorer",
-    "📋 Reviewer Audit Trail",
+    "📋 Session Audit Trail",
 ])
 
 # ==========================================
@@ -186,12 +187,19 @@ with tab_verify:
         "reproducible evidence tables, and native bilingual explanations."
     )
 
+    st.warning(
+        "ℹ️ **Demo Transparency Note:** This prototype evaluates illustrative claims on simulated releases "
+        "that mirror official MoHFW HMIS schema; the verification pipeline runs identically on real published CSV files."
+    )
+
     # Active Claim Card
+    claim_type_label = selected_claim.get("claim_type", "Illustrative claim on simulated data")
     st.info(
         f"**Claim ({selected_claim['id']}):** \"{selected_claim['text']}\"\n\n"
-        f"👤 *Speaker / Source:* {selected_claim.get('speaker', 'Unknown')} | "
-        f"📅 *Claim Date:* {selected_claim.get('claim_date', 'N/A')} | "
-        f"🎯 *Context:* {selected_claim.get('context', 'Public Statement')}"
+        f"🏷️ *Status:* **{claim_type_label}** | "
+        f"👤 *Source:* {selected_claim.get('speaker', 'Illustrative Press Release')} | "
+        f"📅 *Date:* {selected_claim.get('claim_date', 'N/A')}\n\n"
+        f"🎯 *Context:* {selected_claim.get('context', 'Simulated demonstration context.')}"
     )
 
     # Run Evaluations
@@ -208,6 +216,9 @@ with tab_verify:
                 <h3 style="color: #D84315; margin: 0 0 10px 0;">🚨 Official Data Revision Drift Detected!</h3>
                 <p style="font-size: 1.05rem; margin: 0;">
                     <b>{drift_info['drift_summary']}</b>
+                </p>
+                <p style="font-size: 0.88rem; color: #666; margin: 6px 0 0 0;">
+                    (Demonstration using simulated revision releases mirroring HMIS auditing practices)
                 </p>
             </div>
             """,
@@ -278,11 +289,11 @@ with tab_verify:
 
     # Reviewer Decision Step (Phase 3 Requirement)
     st.subheader("🧑‍💼 Reviewer Decision & Action Console")
-    st.caption("Human-in-the-loop audit step: Official review to approve or reject publishing this finding.")
+    st.caption("Human-in-the-loop audit step: Official review to approve or reject publishing this finding (Session audit trail with CSV export).")
 
     col_rev1, col_rev2 = st.columns([2, 1])
     with col_rev1:
-        reviewer_name = st.text_input("Reviewer Name / Organization:", value="Dr. A. Sharma (Fact-Check Health Desk)")
+        reviewer_name = st.text_input("Reviewer Name / Desk:", value="Fact-Check Desk Reviewer")
         reviewer_notes = st.text_area(
             "Reviewer Verification Notes:",
             value=f"Verified against {active_release_file}. Status: {verdict}."
@@ -305,7 +316,13 @@ with tab_verify:
                 "notes": reviewer_notes,
             }
             st.session_state.audit_trail.append(audit_entry)
-            st.success(f"Claim {selected_claim['id']} APPROVED and published to public feed!")
+
+            # Local CSV audit append
+            audit_log_path = BASE_DIR / "data" / "session_audit_log.csv"
+            audit_df = pd.DataFrame(st.session_state.audit_trail)
+            audit_df.to_csv(audit_log_path, index=False)
+
+            st.success(f"Claim {selected_claim['id']} APPROVED and recorded in session audit trail!")
 
         if st.button("❌ Reject Alert", use_container_width=True):
             audit_entry = {
@@ -320,6 +337,12 @@ with tab_verify:
                 "notes": reviewer_notes,
             }
             st.session_state.audit_trail.append(audit_entry)
+
+            # Local CSV audit append
+            audit_log_path = BASE_DIR / "data" / "session_audit_log.csv"
+            audit_df = pd.DataFrame(st.session_state.audit_trail)
+            audit_df.to_csv(audit_log_path, index=False)
+
             st.warning(f"Claim {selected_claim['id']} marked as REJECTED.")
 
 
@@ -329,7 +352,7 @@ with tab_verify:
 with tab_compare:
     st.subheader("⚖️ Before & After Release Comparison Matrix")
     st.markdown(
-        "Side-by-side inspection of all claims evaluated across both official dataset releases. "
+        "Side-by-side inspection of all claims evaluated across both dataset releases. "
         "Enables reviewers to catch historical data revisions instantly."
     )
 
@@ -361,12 +384,12 @@ with tab_compare:
 
     st.dataframe(pd.DataFrame(comparison_rows), use_container_width=True, hide_index=True)
 
-    st.markdown("### Spotlight: The Revision Story (CLM-001)")
+    st.markdown("### Spotlight: The Revision Story (CLM-001 - Coimbatore Immunization)")
     st.markdown(
         """
-        - **Provisional Data (`release_1.csv`)**: Full child immunization coverage in Pune jumped from 72.4% to 81.9% (+9.5%), supporting the campaign's claim of an 8.5% gain.
-        - **Audited Data (`release_2.csv`)**: Subsequent state audit and survey reconciliation adjusted the 2022 number down to 77.3% (+3.2% net gain), causing the claim to flip to **Unsupported**.
-        - **Why this matters**: Public health monitoring requires automated detection so out-of-date or revised claims don't mislead policy or media.
+        - **Provisional Data (`release_1.csv`)**: Full child immunization coverage in Coimbatore increased from 74.2% to 83.8% (+9.6%), supporting the illustrative claim of an 8.5% gain.
+        - **Audited Reconciled Data (`release_2.csv`)**: Routine auditing adjusted the 2022 number to 78.9% (+3.4% net gain), causing the evaluated verdict to shift to **Unsupported**.
+        - **Why this matters**: Published figures are sometimes revised upon routine data auditing, and claims quoted earlier may no longer match.
         """
     )
 
@@ -381,7 +404,7 @@ with tab_parse:
         "without requiring paid LLM APIs or network connection."
     )
 
-    default_sentence = "Full immunization coverage in Pune rose by 8.5% between 2021 and 2022"
+    default_sentence = "Full immunization coverage in Coimbatore rose by 8.5% between 2021 and 2022"
     user_sentence = st.text_input("Enter a public health assertion sentence:", value=default_sentence)
 
     if st.button("Parse & Test Claim"):

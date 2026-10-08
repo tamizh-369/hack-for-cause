@@ -26,6 +26,8 @@ from src.load import load_release
 def run_pipeline(lang: str = "en"):
     print("=" * 78)
     print(" 🏥 PUBLIC HEALTH CLAIM WATCHDOG - CORE CLI VERIFIER")
+    print(" State Scope: Tamil Nadu (MoHFW HMIS Schema)")
+    print(" Demo Notice: Evaluates illustrative claims on simulated data mirroring HMIS.")
     print("=" * 78)
 
     raw_dir = BASE_DIR / "data" / "raw"

@@ -1,4 +1,4 @@
-"""Unit tests for src/load.py (Data Loading & Quality Checks)."""
+"""Unit tests for src/load.py (Data Loading & Quality Checks for Tamil Nadu)."""
 
 from pathlib import Path
 import pandas as pd
@@ -15,13 +15,13 @@ RAW_DATA_DIR = BASE_DIR / "data" / "raw"
 
 
 def test_district_normalization():
-    """Verify alias mapping and whitespace/casing normalization."""
-    assert normalize_district_name("poona") == "Pune"
-    assert normalize_district_name("Poona") == "Pune"
-    assert normalize_district_name("  PUNE  ") == "Pune"
-    assert normalize_district_name("chhatrapati sambhajinagar") == "Aurangabad"
-    assert normalize_district_name("nasik") == "Nashik"
-    assert normalize_district_name("Nagpur") == "Nagpur"
+    """Verify alias mapping and whitespace/casing normalization for Tamil Nadu."""
+    assert normalize_district_name("kovai") == "Coimbatore"
+    assert normalize_district_name("Coimbatore") == "Coimbatore"
+    assert normalize_district_name("  MADURAI  ") == "Madurai"
+    assert normalize_district_name("kancheepuram") == "Kanchipuram"
+    assert normalize_district_name("trichy") == "Tiruchirappalli"
+    assert normalize_district_name("nellai") == "Tirunelveli"
 
 
 def test_load_releases_exist_and_valid():
@@ -39,11 +39,11 @@ def test_load_releases_exist_and_valid():
 
 
 def test_validate_data_quality_valid():
-    """Test data quality validation passes for clean data (Pune immunization)."""
+    """Test data quality validation passes for clean data (Coimbatore immunization)."""
     df1 = load_release(RAW_DATA_DIR / "release_1.csv")
     valid, err = validate_data_quality(
         df=df1,
-        district="Pune",
+        district="Coimbatore",
         indicator="full_immunization_coverage",
         period_from="2021",
         period_to="2022",
@@ -67,11 +67,11 @@ def test_validate_data_quality_missing_district():
 
 
 def test_validate_data_quality_missing_value():
-    """Test quality check detects missing/NaN value in Nashik ANC data."""
+    """Test quality check detects missing/NaN value in Salem ANC data."""
     df1 = load_release(RAW_DATA_DIR / "release_1.csv")
     valid, err = validate_data_quality(
         df=df1,
-        district="Nashik",
+        district="Salem",
         indicator="anc_first_trimester_rate",
         period_from="2021",
         period_to="2022",
@@ -83,13 +83,13 @@ def test_validate_data_quality_missing_value():
 def test_validate_data_quality_out_of_range():
     """Test quality check catches implausible percentage values (> 100 or < 0)."""
     bad_df = pd.DataFrame({
-        "district": ["Pune", "Pune"],
+        "district": ["Coimbatore", "Coimbatore"],
         "period": ["2021", "2022"],
         "full_immunization_coverage": [125.0, 75.0],  # 125% is out of bounds
     })
     valid, err = validate_data_quality(
         df=bad_df,
-        district="Pune",
+        district="Coimbatore",
         indicator="full_immunization_coverage",
         period_from="2021",
         period_to="2022",

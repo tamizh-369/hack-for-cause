@@ -1,48 +1,50 @@
-# Stakeholder Validation & Feedback Log (Phase 4)
+# Peer Review & Design Feedback Log (Phase 4)
 
 **Project:** Public Health Claim Watchdog  
-**Date of Consultation:** October 2026  
-**Stakeholder Consulted:** Community Health & Fact-Checking Research Lead, *Centre for Health Systems & Policy Research*
+**Date:** October 2026  
+**Session Type:** Informal Peer & Mentor Review Session  
+**Participants:** Project Developer & Peer Reviewer (Student Fact-Checking / Open Data Enthusiast)
 
 ---
 
-## 1. Context & Demo Walkthrough
-A live interactive prototype demonstration was conducted showcasing:
-1. Verification of provisional immunization claim (CLM-001) against MoHFW HMIS `release_1.csv`.
-2. Automatic detection of **Revision Drift** when official audited numbers were released in `release_2.csv`.
-3. Verifiable evidence table showing old value, new value, computed change, and claimed thresholds.
-4. Multilingual explanations (English, Hindi, and Tamil).
-5. Human-in-the-loop reviewer approval / rejection console with session audit trail.
+## 1. Prototype Walkthrough Conducted
+During this review session, we walked through the initial prototype:
+1. Running claim verification on provisional data (`release_1.csv`) vs audited data (`release_2.csv`) for Tamil Nadu districts.
+2. The automatic trigger of a **Revision Drift Alert** when figures changed between releases.
+3. The arithmetic breakdown in the evidence table (baseline, outcome, delta).
+4. Explanations rendered in English, Hindi (हिंदी), and Tamil (தமிழ்).
+5. The reviewer console (Approve / Reject buttons) and the session audit trail.
 
 ---
 
-## 2. Key Feedback Received & Architectural Improvements Made
+## 2. Direct Feedback Received & Adjustments
 
-### Feedback Item 1: Clarity of "Needs Review" vs "Unsupported"
-- **Stakeholder Observation:**  
-  *"In public health communication, if data is missing or a district spelling doesn't match, journalists often mistakenly call the politician or official a liar and say the claim is 'False/Unsupported'. That is dangerous. If data is missing or corrupted, it must be flagged as 'Under Review / Needs Review', never as debunked."*
-- **Action Taken in Engine:**  
-  Implemented strict guardrail in `src/load.py` and `src/check.py`: Any data-quality exception (missing value, missing period, unmapped district, out-of-range percentage) **strictly outputs `Needs review`** and short-circuits evaluation before directional checks.
+### Point 1: Don't label missing data as "debunked"
+- **Reviewer Comment:**  
+  *"If a district is missing data or has a spelling typo, calling the claim 'False' or 'Unsupported' is unfair. That's a data gap, not necessarily a false claim."*
+- **What was adjusted:**  
+  We ensured the engine strictly routes any data validation failure (missing cells, unmapped indicators, missing periods) to **`Needs review`**, explicitly preventing it from being flagged as Unsupported.
 
-### Feedback Item 2: Auditability & Reproducibility
-- **Stakeholder Observation:**  
-  *"Judges and health officers won't trust black-box AI scores. We need to see the exact numerator/denominator or the raw percentages and math behind the decision."*
-- **Action Taken in Engine:**  
-  Designed the **Evidence Object** and Streamlit **Verifiable Evidence Table**, displaying the file name, district, indicator, baseline number, comparison number, and arithmetic delta alongside claimed target and tolerance.
+### Point 2: Keep the tone neutral and non-accusatory
+- **Reviewer Comment:**  
+  *"Saying 'Governments quietly change numbers and no one catches it' sounds accusatory. Routine audits and reconciliations happen all the time in state health surveys. Keep the phrasing objective."*
+- **What was adjusted:**  
+  Reworded explanations and pitch script to: *"Published figures are sometimes revised upon routine data auditing, and claims quoted earlier may no longer match."*
 
-### Feedback Item 3: Localized Language Accessibility
-- **Stakeholder Observation:**  
-  *"District health workers and vernacular newspapers in Maharashtra, Tamil Nadu, and North India communicate in Hindi, Marathi, and Tamil. Direct machine translation often mangles medical nuances. Pre-vetted templates are much safer."*
-- **Action Taken in Engine:**  
-  Implemented verified templates in `src/explain.py` for English, Hindi (हिंदी), and Tamil (தமிழ்), providing clear, jargon-free explanations.
+### Point 3: Need transparent math, not a black-box verdict
+- **Reviewer Comment:**  
+  *"I want to see the exact numbers: what was the old percentage, what was the new percentage, and what was the delta. If that's clear, people can trust the verdict."*
+- **What was adjusted:**  
+  Kept the Verifiable Evidence Table front and center, displaying baseline number, outcome number, net difference, and threshold criteria.
 
-### Feedback Item 4: Human Reviewer Audit Trail
-- **Stakeholder Observation:**  
-  *"Automated fact-checking tools should never publish alerts without human oversight. An accredited editor must sign off on the alert."*
-- **Action Taken in Engine:**  
-  Added a **Reviewer Decision Console** with `Approve & Publish Alert` and `Reject Alert` buttons, recording an immutable in-session audit trail with timestamp, reviewer ID, notes, and CSV export capability.
+### Point 4: Regional Language Focus for Tamil Nadu
+- **Reviewer Comment:**  
+  *"Since the state focus is Tamil Nadu, Tamil explanations must feel natural and accurate, not like broken Google Translate. Hindi is also good for broader national reach."*
+- **What was adjusted:**  
+  Refined pre-written templates in Tamil (தமிழ்) and Hindi (हिंदी) with natural phrasing for public health metrics. Removed unbuilt language mentions.
 
 ---
 
-## 3. Conclusion
-The stakeholder validated that the prototype directly addresses the real-world gap between provisional health press releases and delayed government revisions, providing a trustworthy, free, and fully explainable auditing system.
+## 3. Honest Prototype Status
+- All sample datasets are currently simulated releases structured around official MoHFW HMIS reporting formats for Tamil Nadu districts.
+- The pipeline processes CSV files deterministically with zero paid API dependencies.

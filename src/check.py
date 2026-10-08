@@ -152,7 +152,7 @@ def evaluate_claim(
                 f"magnitude mismatch (claimed ~{claimed_magnitude}% ± {tolerance}%, observed change was {computed_change:+g}%)"
             )
         reason = (
-            f"Official release data does not support the claim: {indicator} in {district} "
+            f"Data in this release does not substantiate the claim: {indicator} in {district} "
             f"changed from {evidence['old_value']}% in {period_from} to {evidence['new_value']}% "
             f"in {period_to} ({', '.join(reasons_list)})."
         )
@@ -173,7 +173,7 @@ def detect_drift(
 ) -> Dict[str, Any]:
     """Compare evaluation results across Release 1 and Release 2 to detect status drift.
 
-    A drift alert is triggered when an official data revision shifts the verdict
+    A drift alert is triggered when a data revision shifts the verdict
     (e.g., from Supported in Release 1 to Unsupported in Release 2).
     """
     v1 = eval_release_1.get("verdict")
@@ -190,11 +190,13 @@ def detect_drift(
             summary = (
                 f"⚠️ REVISION DRIFT DETECTED: Claim was '{v1}' under Release 1 "
                 f"(observed change: {ev1.get('computed_change'):+g}%), but under audited Release 2 "
-                f"the verdict degraded to '{v2}' (observed change: {ev2.get('computed_change'):+g}%)."
+                f"the verdict shifted to '{v2}' (observed change: {ev2.get('computed_change'):+g}%). "
+                f"Published figures are sometimes revised upon routine data auditing, and claims quoted earlier may no longer match."
             )
         else:
             summary = (
-                f"Notice: Claim status shifted from '{v1}' in Release 1 to '{v2}' in Release 2."
+                f"Notice: Claim status shifted from '{v1}' in Release 1 to '{v2}' in Release 2 "
+                f"following official dataset reconciliation."
             )
     else:
         summary = f"Consistent: Claim status remained '{v1}' across both data releases."
